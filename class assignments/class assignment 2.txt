@@ -1,0 +1,54 @@
+-> studnts.details
+
+name, hindi rank, eng rank, maths rank
+sandy,1,1,1
+suyash,3,4,5
+rishabh,4,5,2
+disha,2,3,4
+abhishek,5,2,3
+
+from the file above,
+run a background job that divides toppers (top3) of each subject into three separate files i.e.,  english.toppers, hindi.toppers, maths.toppers
+run  foreground job that prints toppers of each subject to STDOUT every 5 seconds
+run another background job that adds new entries to the file
+make sure foreground job prints updated entriese
+
+-> backgroundjob.sh
+
+#!/bin/bash
+
+DATE=$(date)
+
+while true;
+do
+echo "Redirecting hindi topper entries to hindi.topper"
+awk -F, '{if ($2<=1) print $1, $2}' students.details > hindi.topper
+echo "$DATE: Redirected hindi topper entries to hindi.topper" >> studentslog.txt
+sleep 5
+echo "Redirecting english topper entries to english.topper"
+awk -F, '{if ($3<=1) print $1, $3}' students.details > english.topper
+echo "$DATE: Redirected english topper entries to english.topper" >> studentslog.txt
+sleep 5
+echo "Redirecting math topper entries to math.topper"
+awk -F, '{if ($4<=1) print $1, $4}' students.details > math.topper
+echo "$DATE: Redirected math topper entries to math.topper" >> studentslog.txt
+sleep 5
+done
+
+-> foreground.sh
+
+while true;
+do
+echo "Redirecting topper of hindi subject to STDOUT"
+cat hindi.topper>&1
+sleep 5
+echo "Redirecting topper of english subject to STDOUT"
+cat english.topper>&1
+sleep 5
+echo "Redirecting topper of math subject to STDOUT"
+cat math.topper>&1
+sleep 5
+done
+
+-> studentslog.txt
+

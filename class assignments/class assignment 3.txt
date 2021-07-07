@@ -1,0 +1,61 @@
+./OtPackageManager
+Press
+1. To install a software
+2. TO search a software
+3. To remove a software
+Enter Software Name:
+Do you want to continue(y/n):
+
+Answer :
+
+#!/bin/bash
+
+while true 
+do
+
+echo "1. To install a software
+2. TO search a software
+3. To remove a software"
+
+read ACTION
+
+echo "Enter software name:"
+read PACKAGE
+
+case $ACTION in
+               1) 
+               apt-get install $PACKAGE
+               echo "$PACKAGE installed"
+               ;;
+               2)
+               apt-cache search $PACKAGE
+               echo "Search finished"
+               ;;
+               3)
+               apt-get remove $PACKAGE
+               apt-get purge $PACKAGE
+               echo "$PACKAGE removed"
+               ;;
+esac
+
+echo "Do you want to continue:"
+read CONFIRMATION
+
+if [ $CONFIRMATION == no ]
+then
+echo "Thank You"
+break
+fi
+
+if [ $CONFIRMATION == yes ]
+then
+continue
+fi
+
+done
+
+
+Modifications :
+logs
+error messages 
+$? use 

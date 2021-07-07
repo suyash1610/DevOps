@@ -1,0 +1,72 @@
+Step1:
+./OtTree .
+.
+├── AWSCLIV2.pkg
+├── Applications
+├── Desktop
+├── Documents
+Step 2:
+./OtTree /var/log -d 2 
+/var/log
+├── Bluetooth
+│   └── PacketLoggerBluetoothTraceFile-19-11-2020_20.13.24.pklg
+├── CoreDuet
+├── DiagnosticMessages
+│   ├── 2021.06.26.asl
+│   ├── 2021.06.27.asl
+│   ├── 2021.06.28.asl
+│   ├── 2021.06.29.asl
+│   ├── 2021.06.30.asl
+│   ├── 2021.07.01.asl
+│   ├── 2021.07.02.asl
+│   ├── 2021.07.03.asl
+│   └── StoreData
+Step3:
+./OtTree /var/log -d 2 -h
+/var/log
+├── Bluetooth
+│   └── PacketLoggerBluetoothTraceFile-19-11-2020_20.13.24.pklg
+├── CoreDuet
+├── DiagnosticMessages
+│   ├── 2021.06.26.asl
+│   ├── 2021.06.27.asl
+│   ├── 2021.06.28.asl
+│   ├── 2021.06.29.asl
+│   ├── 2021.06.30.asl
+│   ├── 2021.07.01.asl
+│   ├── 2021.07.02.asl
+│   ├── 2021.07.03.asl
+│   └── StoreData
+│   └── .hidden1
+│   └── .hidden2
+Step4:
+./OtTree /var/log -d 2 -h -l
+/var/log
+├── Bluetooth
+│   └── PacketLoggerBluetoothTraceFile-19-11-2020_20.13.24.pklg
+├── CoreDuet
+├── DiagnosticMessages
+│   ├── 2021.06.26.asl
+│   ├── 2021.06.27.asl
+│   ├── 2021.06.28.asl
+│   ├── 2021.06.29.asl
+│   ├── 2021.06.30.asl
+│   ├── 2021.07.01.asl
+│   ├── 2021.07.02.asl
+│   ├── 2021.07.03.asl
+│   └── StoreData
+│   └── .hidden1
+│   └── .hidden2
+│   └── link1 -> 2021.06.26.asl
+│   └── link2 -> 2021.06.26.asl
+
+https://blog.niklasottosson.com/linux/bash-script-simulating-the-tree-command/
+
+first_letter=$(ls -l | cut -c1-1)
+$1=var
+
+first_letter=$(ls -l | cut -c1-1)
+for start_letter in first_letter
+do  
+echo "dir"
+done
