@@ -1,1 +1,1 @@
-# DevOps
+# DevOps docs and projects repository
