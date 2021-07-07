@@ -1,0 +1,106 @@
+UserManager
+    - Add NinjaTeam (Simulate Group)
+    - Add a User (Simulate) under a team
+    - Assign user to another team
+Ensure below constraints are met:
+    - A user should have read,write, execute access to home directory
+    - All the users of same team should have read and excute access to home directory of fellow team members
+    - Other team members should not have any access to other team members directory
+    - In home directory of every user there should be 3 shared directories
+        - team: Same team members will have full access
+        - ninja: All ninja's will have full access
+        - all: Every in the system should have full access
+i.e
+./UserManager.sh addTeam NinjaTeam 
+./UserManager.sh addTeam amigo
+./UserManager.sh addTeam unixkings
+./UserManager.sh addTeam arpit NinjaTeam | user1
+./UserManager.sh addTeam kartik NinjaTeam | user2
+./UserManager.sh addTeam kuldeep NinjaTeam | user2
+./UserManager.sh addTeam rakesh NinjaTeam  | user4
+./UserManager.sh addUser arpit amigo | user1
+./UserManager.sh addUser kartik amigo | user2
+./UserManager.sh addUser kuldeep unixkings | user3
+./UserManager.sh addUser rakesh unixkings | user4
+Resultant Structure
+/home
+  - arpit
+    - team
+    - ninja
+    - all
+  - kartik
+    - team
+    - ninja
+    - all
+  - kuldeep
+    - team
+    - ninja
+    - all
+  - rakesh
+     - team
+     - ninja
+     - all
+
+Answer using case :
+
+./UserManager.sh addTeam NinjaTeam 
+./UserManager.sh addTeam amigo
+./UserManager.sh addTeam unixkings
+./UserManager.sh addUser user1 amigo
+./UserManager.sh addUser user2 amigo
+./UserManager.sh addUser user3 unixkings 
+./UserManager.sh addUser user4 unixkings 
+./UserManager.sh addGroup user1 NinjaTeam 
+./UserManager.sh addGroup user2 NinjaTeam 
+./UserManager.sh addGroup user3 NinjaTeam 
+./UserManager.sh addGroup user4 NinjaTeam 
+
+
+#!/bin/bash
+
+case $1 in
+         addTeam)
+            groupadd $2
+            echo "group added"
+         ;;
+         addUser)
+            useradd -m $2
+            echo "User added: $2"
+
+            mkdir /home/$2/all
+            mkdir /home/$2/team
+            mkdir /home/$2/ninja
+            chown -R $2:$2 /home/$2/all
+            chown -R $2:$2 /home/$2/team
+            chown -R $2:$2 /home/$2/ninja
+            echo "Dir all, team, amd ninja created"
+
+            usermod -a -G $3 $2
+            echo "User added to group: $3"
+
+            chmod 777 /home/$2/all
+            chgrp amigo /home/$2/team
+            chmod 771 /home/$2/team
+            chgrp NinjaTeam /home/$2/ninja
+            chmod 771 /home/$2/ninja  
+            chgrp NinjaTeam /home/$2/
+            chmod 755 /home/$2/
+            echo "Permissions altered"
+         ;;   
+         addGroup)
+            usermod -a -G $3 $2
+            echo "User added to group: $3"
+         ;;      
+esac
+
+==============================================================
+
+
+
+
+
+
+
+
+
+

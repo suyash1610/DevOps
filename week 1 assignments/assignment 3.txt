@@ -1,0 +1,134 @@
+Question 1.
+
+Create a utility to cleanup the logs, please note:
+- You should not be using logrotate.
+- Log cleanup information should be stored in a configuration file
+  - nginx_logCleaner.conf for nginx process
+  - apache_logCleaner.conf for apache process
+  - hello_logCleaner.conf for helloWorld.sh (custom process)
+- Below are the cleanup configuration options
+  - process name for which to clean up | Done 
+  - path of the process log file (optional) - default should be /var/log/<process> | Done
+  - Size basis i.e 40 kb | Done
+  - Time basis i.e 0800 | Done
+  - Will it be deleted or backed up | Done 
+  - If backed up, how many backup needs to be retained 
+- The utility should run as a background daemon
+- The utility must generate a log file of it's own and periodically print information
+  - each time it wakes to collect | Done
+  - number of processes it is managing | Done
+  - which file it rotated | Done
+- Use the linux directory structure convention to place all the files, ie. executable script, configuration files, backup files per process, log file of this utility.
+example : Done
+./OtRunInBackground start OtLogCleaner --config /path/to/OtLogCleaner.d/
+
+Annwer.
+
+RESOURCE : https://www.youtube.com/results?sp=mAEB&search_query=Bash+Script+-+Cleaning+Logs+automatically
+
+Step 1: Create configuration file with name apache_logCleaner.conf | Done
+Step 2: Set up parameters inside the configuration file. | Done 
+Step 3: Create a script OtLogCleaner.sh | Done 
+Step 4: Input the configuration file in script. Make the script read the configuration file. | Done
+Step 5: All other scripting.
+Step 6: Adding additional variables. | Done
+Step 7: After every operation redirect the logs to a log file as well. | Done
+Step 8: Follow linux directory convention. | Done
+
+Left :
+root user script 
+
+-> apache_logCleaner.conf 
+
+#Configuration for apache log cleaner script
+PROCESS_NAME=httpd
+DO_BACKUP=yes
+LOG_PATH=/var/log/httpd
+LOG_NAME=access_log
+SIZE=5
+SCHEDULER=no
+TIME=8
+DELT=no
+BACKUP=no
+BACKUP_LOC=/var/opt/httpd/backups
+BACKUP_NUMBER=5
+
+-> OtLogCleaner.sh
+
+#!/bin/bash
+
+CONFIG_PATH=/etc
+CONFIG_NAME=apache_logCleaner.conf
+DATE=$(date)
+LOGFILE=/var/log/OtLogCleaner/logfile.txt
+
+source /etc/apache_logCleaner.conf
+
+if [ $PROCESS_NAME == httpd ] && [ $DO_BACKUP == yes ];
+then
+cd $LOG_PATH
+logfilesize=$(du $LOG_NAME | awk '{print $1}')
+   if [ $logfilesize -ge $SIZE ];
+   then
+   sed -n '21,$p' $LOG_NAME > temp.txt
+   cat temp.txt > $LOG_NAME
+   echo "Last 20 records cleaned"
+   echo "$DATE : Last 20 records cleaned in $LOG_PATH/$LOG_NAME" >> $LOGFILE
+   ps=$(ps -aux | grep OtLogcleaner)
+   echo "$ps" >> $LOGFILE
+   else
+   echo "Size of log file is less than $SIZE K"
+   fi
+fi
+
+if [ $SCHEDULER == yes ];
+then
+echo "0 $TIME * * * cd $LOG_PATH ; head -n -20 $LOG_NAME > temp.txt ; cat temp.txt > $LOG_NAME" > /var/spool/cron/root
+echo "OtLogCleaner.sh job scheduled at $TIME:00 Hrs"
+echo "$DATE : OtLogCleaner.sh job scheduled at $TIME:00 Hrs" >> $LOGFILE
+ps=$(ps -aux | grep OtLogcleaner)
+echo "$ps" >> $LOGFILE
+fi
+
+if [ $DELT == yes ];
+then
+cd $LOG_PATH
+rm -rf $LOG_NAME
+echo "File deleted"
+echo "$DATE : File $LOG_PATH/$LOG_NAME deleted " >> $LOGFILE
+ps=$(ps -aux | grep OtLogcleaner)
+echo "$ps" >> $LOGFILE
+fi
+
+if [ $BACKUP == yes ];
+then
+num=$(find $BACKUP_LOC -type f | wc -l)
+    if [ $num -lt $BACKUP_NUMBER ];
+    then
+    BACKUPTIME=$(date "+%Y.%m.%d-%H.%M.%S")
+    cd $LOG_PATH
+    cp $LOG_NAME $BACKUP_LOC/backup_file.$BACKUPTIME
+    echo "Backup completed"
+    echo "$DATE : File $LOG_PATH/$LOG_NAME backed up at $BACKUP_LOC" >> $LOGFILE
+    ps=$(ps -aux | grep OtLogcleaner)
+    echo "$ps" >> $LOGFILE
+    else
+    cd $BACKUP_LOC
+    oldest_backup=$(ls -lh | sed -n '2p' | awk '{print $9}')
+    rm -rf $oldest_backup
+    echo "Backup file: $oldest_backup deleted"
+    fi
+fi
+
+
+        
+
+
+
+
+
+
+
+
+
+
