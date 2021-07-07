@@ -1,0 +1,169 @@
+1) Create a process management utility, to find
+- Top n process by memory
+- Top n process by cpu
+- Kill process having least priority 
+- List running duration of a process by name or pid
+- List orphan process if any
+- List zoombie process if any
+- Kill process by name or pid
+- List process that are waiting for the resources
+i.e.
+./ otProcessManager topProcess 5 memory
+./ otProcessManager topProcess 10 cpu
+./ otProcessManager killLeastPriorityProcess 
+./ otProcessManager RunningDurationProcess <processName>/<processID>
+./ otProcessManager listOrphanProcess
+./ otProcessManager listZoombieProcess
+./ otProcessManager killProcess <processName>/<processID>
+./ otProcessManager ListWaitingProcess
+
+2) Create a utility that will create the service for any shell script 
+Input:
+- It should input the script path along with the parameters required to start script (if any)
+- It should input the service name
+Output:
+- A service for script that can be start/stop like a daemon
+- It should return the pid of that process as well along with memory and cpu consumption stored in a file (Good to do if you can persist the historical data of resource consumption for that process)
+i.e.
+./OtRunInBackground start helloPrinter.sh helloPrinter
+./OtRunInBackground stop helloPrinter
+
+3) Let's play around with process:
+- clear a log file of running process
+- delete a log file of running process and see what happens to process
+- elevate the priority of a process
+
+Answer 1.
+
+Resources :
+
+https://www.2daygeek.com/linux-find-top-memory-consuming-processes/#:~:text=The%20Linux%20'top'%20command%20is,memory%20consuming%20processes%20in%20Linux.
+https://www.cyberciti.biz/faq/how-to-check-how-long-a-process-has-been-running/
+
+
+#!/bin/bash
+
+if [ $1 == topProcess ] && [ $3 == memory ];
+then
+echo "User wants top process by memory"
+ps -eo pid,ppid,%mem,%cpu,comm --sort=-%mem | head -6
+fi
+
+if [ $1 == topProcess ] && [ $3 == cpu ];
+then
+echo "User wants top process by cpu"
+ps -eo pid,ppid,%mem,%cpu,comm --sort=-%cpu | head -6
+fi
+
+if [ $1 == killLeastPriorityProcess ];
+then
+echo "User wants to kill least priority process"
+pid=$(ps -ely | sed '1d' | sort -g -r -k6 | head -1 | awk '{print $3}')
+echo "pid to kill: $pid"
+kill $pid
+echo "process killed"
+fi
+
+if [ $1 == RunningDurationProcess ] 
+then
+PROCESS_NAME=$2
+ps -C $PROCESS_NAME -o pid,cmd,start,etime,uid 2>"/dev/null"
+fi
+
+if [ $1 == RunningDurationProcess ] 
+then
+PROCESS_ID=$2
+ps -p $PROCESS_ID -o pid,cmd,start,etime,uid 2>"/dev/null"
+fi
+
+if [ $1 == listOrphanProcess ];
+then
+ps -elf | awk '$5 == 1{ print $4,$5,$15}' | column -t
+fi
+
+if [ $1 == listZoombieProcess ];
+then
+ps -aux | grep z
+fi
+
+if [ $1 == killProcess ];
+then
+PROCESS_NAME=$2
+pid=$(pgrep $PROCESS_NAME) 2>"/dev/null"
+kill $pid 2>"/dev/null"
+echo "Process terminated"
+fi
+
+if [ $1 == killProcess ];
+then
+PROCESS_ID=$2
+kill $PROCESS_ID 2>"/dev/null"
+echo "Process terminated"
+fi
+
+if [ $1 == ListWaitingProcess ];
+then
+ps -elf | awk '$2 == "D" { print $2,$3,$4,$5,$15}' | column -t
+fi
+
+=================================================
+
+Abswer 2.
+
+-> helloPrinter.sh
+
+#!/bin/bash
+
+while true
+do
+  for num in {1..10..1}
+  do
+  echo "Printing number: $num"
+  sleep 5
+  done
+done
+
+-> OtRunInBackground.sh
+
+#!/bin/bash
+
+LOG_LOC=/root/scripts
+LOG_FILE=helloPrinterlog.txt
+
+DATE=$(date)
+
+case $1 in
+         start)
+         bash $2 &
+         echo "Process started: $2"
+         logs=$(ps -aux | grep $2 | head -1 | awk '{print $2, $3, $4, $12}')
+         echo "$DATE: Process started: $2: $logs" >> $LOG_LOC/$LOG_FILE
+         ;;
+         stop)
+         pid=$(ps -aux | grep $2 | head -1 | awk '{print $2}')
+         kill $pid
+         echo "Process killed: $2"
+         echo "$DATE: Process killed: $2: $pid" >> $LOG_LOC/$LOG_FILE
+         ;;
+esac
+
+-> helloPrinterlog.txt
+
+============================================================================================
+
+Modifications :
+
+Remove arror in first script.
+
+ps -eo pid,ppid,%mem,%cpu,comm | grep helloPrinter.sh
+ps -aux | grep helloPrinter.sh | head -1 | awk '{print $2}'
+ps -aux | grep helloPrinter.sh | awk '{print $2, $3, $4, $11}'
+
+
+
+
+
+
+
+
+
