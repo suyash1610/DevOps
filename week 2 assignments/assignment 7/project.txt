@@ -1,0 +1,52 @@
+Google form assignment
+You've been given three spreadsheets
+1 - class 6A - source of truth
+2 - Google form responses
+3 - Resultant sheet
+Sheet 1 - the source of truth and contains all correct information
+Sheet 2 -  google form response. It may contain wrong information as students can give wrong information
+Sheet 3 - Required sheet where we want marks of each student against their name
+There are three columns to verify a student's identity in Google form sheet
+Email - Which contains admission number
+Name - Where students wrote their name
+Admission number - Where students wrote their admission number
+For each student, match the above three colums from "source of truth sheet" to verify the student identity and then update their marks in output sheet
+Update marks only when atleast two of the three columns have right information. 
+If only name column matches write NA in marks column as name can be common
+If all three mismatch write NA in marks column.
+eg.
+./updateMarks.sh -classfile 6A.csv -gform form.csv
+output
+marks.csv
+
+-> class6A
+
+Admission Number,Name
+1234,Varun Thakur
+5254,Abhijeet Arora
+6363,Saima Khan
+7451,Rohit Gujral
+8743,Jaspreet Singh
+8535,Allan Mendonca
+8206,Sumit Vyas
+3473,Venkatesh Mannem
+8534,Sabir Ghaus
+4564,Abeer Gandhi
+
+-> googleform
+
+Email,Name,Class,Section,Admission Number,Score
+1234@dps.com,Varin Thakur,6,A,1234,20/30
+5254@dps.com,Abhijeet Arora,6,A,5254,15/30
+6363@dps.com,Saima khan,6,A,6362,25/30
+rgujral@gmail.com,Rohat Gujral,6,A,7452,22/30
+8743@dps.com,Jaspreet Singh,6,A,8744,10/30
+8535@dps.com,Allan Mendoca,6,A,8535,27/30
+8206@dps.com,Sumit Vyas,6,A,8602,28/30
+venkat123@outlook.com,Venkatesh Mannem,6,A,3473,19/30
+8534@dps.com,Sabir Ghaus,6,A,8534,24/30
+4564@dps.com,Abeer Gandhi,6,A,4564,5/30
+
+-> output
+
+Admission Number,Name,Score

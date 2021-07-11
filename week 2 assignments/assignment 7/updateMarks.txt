@@ -1,0 +1,31 @@
+#!/bin/bash
+
+CLASS_6A=$1
+GOOGLE_FORM=$2
+OUTPUT=$3
+
+for num in {2..11..1}
+do
+
+ADM_NO_ORGNL=$(cat ${CLASS_6A} | sed -n ""${num}"p" | awk -F, '{print $1}')
+ADM_NO=$(cat ${GOOGLE_FORM} | sed -n ""${num}"p" | awk -F, '{print $5}')
+
+NAME_ORGNL=$(cat ${CLASS_6A} | sed -n ""${num}"p" | awk -F, '{print $2}')
+NAME=$(cat ${GOOGLE_FORM} | sed -n ""${num}"p" | awk -F, '{print $2}')
+
+DOMAIN=$(cat ${GOOGLE_FORM} | sed -n ""${num}"p" | awk -F, '{print $1}' | awk -F@ '{print $2}')
+
+SCORE=$(cat ${GOOGLE_FORM} | sed -n ""${num}"p" | awk -F, '{print $6}')
+
+if [ ${ADM_NO_ORGNL} -eq ${ADM_NO} ] && [ "${NAME_ORGNL}" == "${NAME}" ] ||
+   [ ${ADM_NO_ORGNL} -eq ${ADM_NO} ] && [ "${DOMAIN}" == "dps.com" ] ||
+   [ "${NAME_ORGNL}" == "${NAME}" ] && [ "${DOMAIN}" == "dps.com" ]
+  then
+  echo "${ADM_NO_ORGNL},${NAME_ORGNL},${SCORE}" >> ${OUTPUT}
+  else
+  echo "${ADM_NO_ORGNL},${NAME_ORGNL},NA" >> ${OUTPUT}
+  fi
+
+done
+
+echo "Operation Complete"
