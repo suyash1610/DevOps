@@ -1,0 +1,44 @@
+#!/bin/bash
+
+ACTION=$1
+FILE=$2
+
+case ${ACTION} in
+     addLineTop)
+     LINE=$3
+     sed -i "1 i ${LINE}" ${FILE}
+     ;;
+     addLineBottom)
+     LINE=$3
+     sed -i "$ a ${LINE}" ${FILE}
+     ;;
+     addLineAt)
+     LINE_NUM=$3
+     LINE=$4
+     sed -i "${LINE_NUM} i ${LINE}" ${FILE}
+     ;;
+     updateFirstWord)
+     FIND=$3
+     REPLACE=$4
+     sed -i "s/${FIND}/${REPLACE}/" ${FILE}
+     ;;
+     updateAllWords)
+     FIND=$3
+     REPLACE=$4
+     sed -i "s/${FIND}/${REPLACE}/g" ${FILE}
+     ;;
+     insertWord)
+     WORD1=$3
+     WORD2=$4
+     WORD_INSERTED=$5
+     sed -i "s/"${WORD1}"/& "${WORD_INSERTED}"/" ${FILE}
+     ;;
+     deleteLine)
+     LINE_NUM=$3
+     sed -i "${LINE_NUM}d" ${FILE}
+     ;;
+     deleteLineWord)
+     WORD=$3
+     sed -i "/${WORD}/d" ${FILE}
+     ;;
+esac

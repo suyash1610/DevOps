@@ -1,0 +1,5 @@
+{{fname}} is trainer of {{topic}}
+{{fname}} is trainer of {{topic}}
+{{fname}} is trainer of {{topic}}
+{{fname}} is trainer of {{topic}}
+{{fname}} is trainer of {{topic}}

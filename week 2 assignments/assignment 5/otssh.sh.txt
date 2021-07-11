@@ -1,0 +1,99 @@
+#!/bin/bash
+
+ACTION="ADD"
+SERVER_ALIAS="server"
+SERVER_HOST="localhost"
+SSH_USER="ubuntu"
+PORT="22"
+SSH_KEY_PATH="~/.ssh/id_rsa"
+
+while getopts 'aldrmn:h:u:p:i:' opt
+do
+  case $opt in
+       a)ACTION="ADD"
+       ;;
+       l)ACTION="LIST"
+       ;;
+       d)DESCRIBE="DESCRIBE"
+       ;;
+       r)ACTION="REMOVE"
+       ;;
+       m)ACTION="MODIFY"
+       ;;
+       n)SERVER_ALIAS=${OPTARG}
+       echo "Server alias is: ${SERVER_ALIAS}"
+       ;;
+       h)SERVER_HOST=${OPTARG}
+       echo "Server hostname is: ${SERVER_HOST}"
+       ;;
+       u)SSH_USER=${OPTARG}
+       echo "Ssh user is: ${SSH_USER}"
+       ;;
+       p)PORT=${OPTARG}
+       echo "Port is: ${PORT}"
+       ;;
+       i)SSH_KEY_PATH=${OPTARG}
+       echo "Ssh key path is: ${SSH_KEY_PATH}"
+       ;;
+  esac
+done
+
+function addserverdetails (){
+        SERVER_ALIAS=$1
+        SERVER_HOST=$2
+        SSH_USER=$3
+        PORT=$4
+        SSH_KEY_PATH=$5
+        echo "${SERVER_ALIAS}: ssh -i ${SSH_KEY_PATH} -p ${PORT} ${SSH_USER}@${SERVER_HOST}" >> otssh_config
+        echo "${SERVER_ALIAS} details added to otssh_config file"
+}
+
+function listserverdetails () {
+         ACTION=$1
+         DESCRIBE=$2
+
+         if [ ${ACTION} == "LIST" ]
+         then
+             if [ ${DESCRIBE} == "DESCRIBE" ]
+             then
+             cat otssh_config
+             echo "Listing ssh-servers full details"
+             else
+             cat otssh_config | awk -F: '{print $1}'
+             echo "Listing available ssh-servers"
+             fi
+         fi
+}
+
+function removeserverdetails () {
+         ACTION=$1
+         SERVER_ALIAS=$2
+         sed -i "/"${SERVER_ALIAS}"/d" otssh_config
+         echo "Removed ${SERVER_ALIAS} details"
+}
+
+function modifyserverdetails (){
+        SERVER_ALIAS=$1
+        SERVER_HOST=$2
+        SSH_USER=$3
+        PORT=$4
+        SSH_KEY_PATH=$5
+        sed -i "/"${SERVER_ALIAS}"/d" otssh_config
+        echo "${SERVER_ALIAS}: ssh -i ${SSH_KEY_PATH} -p ${PORT} ${SSH_USER}@${SERVER_HOST}" >> otssh_config
+        echo "${SERVER_ALIAS} details modified to otssh_config file"
+}
+
+case ${ACTION} in
+        ADD)
+        addserverdetails "${SERVER_ALIAS}" "${SERVER_HOST}" "${SSH_USER}" "${PORT}" "${SSH_KEY_PATH}"
+        ;;
+        LIST)
+        listserverdetails "${ACTION}" "${DESCRIBE}"
+        ;;
+        REMOVE)
+        removeserverdetails "${ACTION}" "${SERVER_ALIAS}"
+        ;;
+        MODIFY)
+        modifyserverdetails "${SERVER_ALIAS}" "${SERVER_HOST}" "${SSH_USER}" "${PORT}" "${SSH_KEY_PATH}"
+        ;;
+esac
