@@ -1,0 +1,92 @@
+#!/bin/bash
+
+#TaskManager.sh -a `mkdir rishi` manual/scheduled
+
+action=$1
+
+taskSubmission() {
+   task=$1
+   taskType=$2
+   Date=$(date)
+
+   #if the type is manual
+   if [[ ${taskType} == "manual" ]]
+   then
+      ${task}
+      if [[ $? == 0 ]]
+      then
+      echo "${Date} : ${task} : TaskType manual : executed successfully" >> taskLog.txt
+      else
+      echo "${Date} : ${task} : TaskType manual : Operation failed" >> taskLog.txt
+      fi
+   elif
+   [[ ${taskType} == "scheduled" ]]
+   then
+   echo "42 16 * * * ${task}" >> mycron
+   crontab mycron
+   #rm mycron
+   cat /var/log/syslog | grep -i "${task}" >> taskLog.txt
+     if [[ $? == 0 ]]
+     then
+     echo "${Date} : ${task} : TaskType Scheduled : executed successfully" >> taskLog.txt
+     else
+     echo "${Date} : ${task} : TaskType Scheduled : Operation failed" >> taskLog.txt
+     fi
+   else
+   echo "Please select b/w manual or scheduled"
+   fi
+}
+
+# List Command
+if [[ ${action} == "-l" ]]
+then
+TaskCondition=$2
+   if [[ ${TaskCondition} == "successful" ]]
+   then
+   echo "only successfully done tasks"
+   cat taskLog.txt | grep successfully
+   elif
+   [[ ${TaskCondition} == "failed" ]]
+   then
+   echo "only failed tasks"
+   cat taskLog.txt | grep failed
+   elif
+   [[ ${TaskCondition} == "" ]]
+   then
+   echo "All tasks"
+   cat taskLog.txt | grep -v cron
+   else
+   echo "Kindly type successful or failed"
+   fi
+
+elif
+[[ ${action} == "-a" ]]
+then
+task=$2
+taskType=$3
+taskSubmission "${task}" ${taskType}
+
+elif
+[[ ${action} == "-d" ]]
+then
+process=$2
+echo "only running tasks"
+pid="$(ps aux | grep ${process}| awk '{print $2}' | sed -n '2p')"
+kill -9 ${pid}
+
+elif
+[[ ${action} == "-e" ]]          # Option to display Execution history of a specific task
+then
+process=$2
+echo "only running tasks"
+pid="$(ps aux | grep ${process} | awk '{print $2}' | sed -n '2p')"
+echo "pid,time,lstart,cmd of process ${process} is :"
+ps -eo pid,time,lstart,cmd | grep ${pid}
+echo " Count of process is : "
+cat taskLog.txt | grep ${process} | wc -l
+echo " Status of task is : "
+cat taskLog.txt | grep ${process}
+
+else
+echo "Bye bye scripters"
+fi

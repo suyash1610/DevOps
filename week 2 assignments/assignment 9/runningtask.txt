@@ -1,0 +1,10 @@
+#!/bin/bash
+
+while true
+do
+  for num in {1..10..1}
+  do
+  echo "Printing number: $num"
+  sleep 5
+  done
+done
