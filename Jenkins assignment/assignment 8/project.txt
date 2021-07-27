@@ -1,0 +1,45 @@
+Create Jenkins utilities to manage users | Done
+    - User will be of 2 type
+        - Normal User
+        - Group Admin User
+    - Super Admin users
+        - Create group admin user
+        - Create normal user
+    - Group Admin User
+        - Can replace his/her login public key | generating ssh keys and replacing the older one. | Done
+        - Request his/her main private key over mail
+        - Add/Delete normal user in the group
+        - Reset private key of group memebers
+    - Normal User
+        - Can replace login public key
+        - Request his/her main private key over mail
+Come with your own ideas of other features such as :
+    - Viewing the activity performed by users(Snoooy)
+    - Show the failed login attempts
+    - ....
+
+
+echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("testuser", "testuser")' | java -jar ./jenkins-cli.jar -s "http://13.126.239.29:8080/" -auth suyash1610:suyash1610 groovy = –
+
+pipeline {
+    agent any
+    stages {
+        stage('Switching user') {
+            input {
+                message 'Enter the password'
+                ok 'yes'
+                submitterParameter 'STRING'
+                parameters {
+                        string defaultValue: 'NA', name: 'PASSWORD'
+                    }
+            }
+            steps {
+                
+            }
+        }
+    }
+}
+
+su groupadmin
+ssh-keygen -f /home/normaluser/.ssh/id_rsa -y
+

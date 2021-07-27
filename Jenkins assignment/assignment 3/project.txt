@@ -1,0 +1,17 @@
+- Create a Jenkins Jobs to build the Salary MicroService application along with the unit test, scans for code quality, vulnerability, code coverage.
+Step1: 
+    - Project should be getting build successfully | Done
+Step2:
+    - Check for Code Stability
+Step3:
+    - Scan for Code Quality like FINDBUG,PMD and ChechStyle
+Step4:
+    - Perform Code Coverage as well using Cobertura.
+Step5:
+    - Implement Notification as well. 
+Also try to perform all steps in your local first and after that create Downstream Jenkins jobs for each Step.
+**NOTE: Please make sure you are generating all report and publishing them as well.**
+**Repo Link: https://github.com/OT-TRAINING/OT-MicroServices-Training.git**
+
+
+

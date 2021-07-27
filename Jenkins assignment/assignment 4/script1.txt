@@ -1,0 +1,32 @@
+#!/bin/bash
+
+while getopts 'ali:q:p:o:' opt
+do
+  case $opt in
+       a)ACTION="ADD"
+       ;;
+       l)ACTION="LIST"
+       ;;
+       i)ITEM=${OPTARG}
+       echo "Item is : ${ITEM}"
+       ;;
+       q)QUANTITY=${OPTARG}
+       echo "Quantity is: ${QUANTITY}"
+       ;;
+       p)PRICE=${OPTARG}
+       echo "Price is: ${PRICE}"
+       ;;
+       o)ORDER_STATUS=${OPTARG}
+       echo "Order status is: ${ORDER_STATUS}"
+       ;;
+  esac
+done
+
+case ${ACTION} in
+     ADD)
+     echo "${ITEM},${QUANTITY},${PRICE},${ORDER_STATUS}" >> bucket.txt
+     ;;
+     LIST)
+     cat bucket.txt
+     ;;
+esac

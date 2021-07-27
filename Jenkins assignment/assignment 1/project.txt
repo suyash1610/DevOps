@@ -1,0 +1,10 @@
+Create a freestyle job which will run maven lifecycle steps in spring3hibernate app as upstream job and create a downstream job that will deploy the 
+generated artifact in nexus using plugin
+Spring3Hibernate App
+https://github.com/opstree/spring3hibernate.git
+
+
+
+
+
+

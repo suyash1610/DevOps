@@ -1,0 +1,10 @@
+#!/bin/bash
+
+URL=$1
+DAYS=$2
+
+git clone ${URL}
+echo ${URL} > url.txt
+REPO_NAME=$(awk -F"/" '{print $5}' url.txt | cut -f1 -d.)
+cd ${REPO_NAME}
+git log --pretty=format:"%ad | %an | %ae | %s" --since=${DAYS}.days

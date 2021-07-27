@@ -1,0 +1,119 @@
+Project : Grocery Manager script. Jenkins project to automate some process of grocery shopping 
+
+Answer:
+
+Bucket file : file containing items data 
+Order History : file containing all ordered items
+
+Steps
+*****
+
+Step 1: Used getopts to parse the arguments. Below are the arguments used :
+-a : ADD
+-l : LIST
+-i : ITEM
+-q : QUANTITY
+-p : price 
+-o : ORDER_STATUS
+Step 2: Used case expression to perform the "ADD" operation, here we are appending the variables values to bucket.txt 
+Step 3: Created a job "add_items" with "build with string parameter" function to add the details to the bucket.txt file. All parameters default value will be NA.
+Step 4: Used case expression to perform "LIST" operation, here we are listing the contents of the bucket.txt file. The job performing list operation is "list_items"
+Step 5: Created another job "order_add". This job will be triggered by the "add_items" job and will run the utility "orderutility.sh". The utility will chack two 
+        things, if the item already exists it will do nothing, if the item is new and the order_status is "ordered" then it will add the item details to the 
+        "orderhistory.txt" file.
+Step 6: Created another job "ordered_items" to list the contents of the "orderhistory.txt" file.
+
+Operations
+**********
+
+./grocerymanager.sh -a -i item -q quantity -p price -o order_status
+./grocerymanager.sh -l 
+./orderutility.sh item
+
+Scripts
+*******
+
+-> grocerymanager.sh
+
+#!/bin/bash
+
+while getopts 'ali:q:p:o:' opt
+do
+  case $opt in
+       a)ACTION="ADD"
+       ;;
+       l)ACTION="LIST"
+       ;;
+       i)ITEM=${OPTARG}
+       echo "Item is : ${ITEM}"
+       ;;
+       q)QUANTITY=${OPTARG}
+       echo "Quantity is: ${QUANTITY}"
+       ;;
+       p)PRICE=${OPTARG}
+       echo "Price is: ${PRICE}"
+       ;;
+       o)ORDER_STATUS=${OPTARG}
+       echo "Order status is: ${ORDER_STATUS}"
+       ;;
+  esac
+done
+
+case ${ACTION} in
+     ADD)
+     echo "${ITEM},${QUANTITY},${PRICE},${ORDER_STATUS}" >> bucket.txt
+     ;;
+     LIST)
+     cat bucket.txt
+     ;;
+esac
+
+-> orderutility.sh
+
+#!/bin/bash
+
+ITEM=$1
+
+grep ${ITEM} bucket.txt 1>/dev/null
+
+if [ $? -eq 0 ]
+then
+echo "Item already exists"
+else
+awk -F, '{ if ( $4=="ordered") print $1",",$2",",$3}' bucket.txt >> orderhistory.txt
+fi
+
+File Used
+*********
+
+-> bucket.txt
+
+Item,Quantity,Price,Order_status
+
+-> orderhistory.txt
+
+Item,Quantity,Price  
+
+Jobs Run
+********
+
+-> add_items
+
+cd /var/lib/jenkins/workspace/Grocery_Manager/add_items
+./grocerymanager.sh -a -i ${ITEM} -q ${QUANTITY} -p ${PRICE} -o ${ORDER_STATUS}
+
+-> list_items
+
+cd /var/lib/jenkins/workspace/Grocery_Manager/add_items
+./grocerymanager.sh -l
+
+-> order_add
+
+cd /var/lib/jenkins/workspace/Grocery_Manager/add_items
+./orderutility.sh ${ITEM}
+
+-> ordered_items
+
+cd /var/lib/jenkins/workspace/Grocery_Manager/add_items
+cat orderhistory.txt
+  

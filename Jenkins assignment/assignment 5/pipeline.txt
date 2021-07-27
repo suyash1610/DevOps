@@ -1,0 +1,91 @@
+node('master') {
+    properties(
+       [
+        parameters(
+            [string(defaultValue: 'NA', name: 'findbugs'),
+             string(defaultValue: 'NA', name: 'checkstyle'),
+             string(defaultValue: 'NA', name: 'pmd'),
+             string(defaultValue: 'NA', name: 'coverage')]
+            )
+       ]
+    )
+    stage('Code Checkout') {
+        git branch: 'main', changelog: false, poll: false, url: 'https://github.com/OT-TRAINING/OT-MicroServices-Training.git'
+    }
+    stage('Clean Phase') {
+        sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+        mvn clean'''
+    }
+    stage('Validate Phase') {
+        sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+        mvn validate'''
+    }
+    stage('Compile Phase') {
+        sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+        mvn compile'''
+    }
+    stage('Test Phase') {
+        sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+        mvn test'''
+    }
+    stage('Package Phase') {
+        sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+        mvn package'''
+    }
+    stage('Publishing to Nexus') {
+        nexusArtifactUploader artifacts: [[artifactId: 'salary', classifier: '', file: 'salary/target/salary-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'fe7bb2eb-fbd6-4408-bc1a-b60c6c4d1b38', groupId: 'com.opstree.salary', nexusUrl: '13.232.212.52:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-releases', version: '0.0.1-SNAPSHOT'
+    }
+    stage('Verify Phase') {
+        sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+        mvn verify'''
+    }
+    stage('Install Phase') {
+        sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+        mvn install'''
+    }
+    parallel (
+        "Findbug Analysis":{
+            if ( findbugs == "yes" ) {
+            sh 'echo "Skipping Findbugs Analysis Check"'
+            } else {
+            sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+            mvn findbugs:findbugs'''
+            }
+        },
+        "Checkstyle Analysis":{
+            if ( checkstyle == "yes" ) {
+            sh 'echo "Skipping Checkstyle Analysis Check"'
+            } else {
+            sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+            mvn checkstyle:checkstyle'''
+            }
+        },
+        "PMD Analysis":{
+            if ( pmd == "yes" ) {
+            sh 'echo "Skipping PMD Analysis Check"'
+            } else {
+            sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+            mvn pmd:pmd'''
+            }
+        },
+        "Code Coverage":{
+            if ( coverage == "yes" ) {
+            sh 'echo "Skipping Code Coverage"'
+            } else {
+            sh '''cd /var/lib/jenkins/workspace/Scripted_Pipeline/salary
+            mvn cobertura:cobertura'''
+            }
+        }
+    )
+    stage('Report Generation') {
+        input(message: "Should we continue with the report?")
+        recordIssues(tools: [pmdParser(pattern: '**/pmd.xml')])
+        recordIssues(tools: [findBugs(pattern: '**/findbugsXml.xml')])
+        recordIssues(tools: [checkStyle(pattern: '**/checkstyle-result.xml')])
+        cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: '**/target/site/cobertura/coverage.xml', conditionalCoverageTargets: '70, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false
+    }
+    stage('Build Notification') {
+        slackSend channel: 'group-connect', message: 'Jenkins Scripted Pipeline Job Executed Successfully'
+        mail bcc: '', body: 'Job is running successfully', cc: '', from: '', replyTo: '', subject: 'Jenkins Scripted Pipeline Job Status', to: 'amazon.machineec2@gmail.com'
+    }
+}

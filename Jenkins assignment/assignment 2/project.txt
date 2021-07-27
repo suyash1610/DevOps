@@ -1,0 +1,16 @@
+Part 1:-
+Creat a Jenkins job, via which you will be able to perform below operations:
+- Create a branch
+- List all branches
+- Merge one branch with other branch
+- Rebase one branch with other branch
+- Delete a branch
+Part 2:-
+Create a shell script that will take a Git URL, Number of days as input and it will list out all the commits that have been done in the last n number of days. 
+The script should display information like given below.
+Date/Time, Author Name, Author Email, Commit Message, Valid Commit Message
+Create a Jenkins Job for the same and publish the output via HTML Publisher
+URL: https://gitlab.com/suyash1610/remote_repo.git
+
+
+

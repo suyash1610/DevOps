@@ -1,0 +1,117 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+    options {
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '2')
+    }
+    parameters {
+        string defaultValue: 'no', name: 'Findbug Analysis'
+        string defaultValue: 'no', name: 'Checkstyle Analysis'
+        string defaultValue: 'no', name: 'PMD Analysis'
+    }
+    stages {
+        stage('Code checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/OT-TRAINING/OT-MicroServices-Training.git'
+            }
+        }
+        stage('Maven validate') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/Assignment_15/salary
+                mvn validate'''
+            }
+        }
+        stage('Maven Compile') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/Assignment_15/salary
+                mvn compile'''
+            }
+        }
+        stage('Maven Test') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/Assignment_15/salary
+                mvn test'''
+            }
+        }
+        stage('Maven Package') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/Assignment_15/salary
+                mvn package'''
+            }
+        }
+        stage('Publishing to Nexus') {
+            steps {
+                nexusArtifactUploader artifacts: [[artifactId: 'salary', classifier: '', file: 'salary/target/salary-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'fe7bb2eb-fbd6-4408-bc1a-b60c6c4d1b38', groupId: 'com.opstree.salary', nexusUrl: '13.232.212.52:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-releases', version: '0.0.1-SNAPSHOT'
+            }
+        }
+        stage('Maven Verify') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/Assignment_15/salary
+                mvn verify'''
+            }
+        }
+        stage('Maven Install') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/Assignment_15/salary
+                mvn install'''
+            }
+        }
+        stage('Code Quality') {
+            parallel {
+                stage('Findbug Analysis') {
+                    when {
+                        environment name: 'Findbug Analysis', value: 'no'
+                    }
+                    steps {
+                        sh '''cd /var/lib/jenkins/workspace/Assignment_15/salary
+                        mvn findbugs:findbugs'''
+                    }
+                }
+                stage('Checkstyle Analysis') {
+                    when {
+                        environment name: 'Checkstyle Analysis', value: 'no'
+                    }
+                    steps {
+                        sh '''cd /var/lib/jenkins/workspace/Assignment_15/salary
+                        mvn checkstyle:checkstyle'''
+                    }
+                }
+                stage('PMD Analysis') {
+                    when {
+                        environment name: 'PMD Analysis', value: 'no'
+                    }
+                    steps {
+                        sh '''cd /var/lib/jenkins/workspace/Assignment_15/salary
+                        mvn pmd:pmd'''
+                    }
+                }
+            }
+        }
+        stage('Report Generation') {
+            input {
+                message 'Do you want to publish report?'
+                ok 'proceed'
+                submitterParameter 'STRING'
+                parameters {
+                   choice choices: ['yes', 'no'], description: 'Do you want to print the report?', name: 'CHOICE'
+                }
+            }
+            when {
+                environment name: 'CHOICE', value: 'yes'
+            }
+            steps {
+                sh 'cd /var/lib/jenkins/workspace/Assignment_15/salary'
+                recordIssues(tools: [findBugs(pattern: '**/findbugsXml.xml')])
+                recordIssues(tools: [checkStyle(pattern: '**/checkstyle-result.xml')])
+                recordIssues(tools: [pmdParser(pattern: '**/pmd.xml')])
+            }
+        }
+        stage('Slack and Email Notifications') {
+            steps {
+                slackSend channel: 'group-connect', message: 'Jenkins Declarative Pipeline Job Executed Successfully'
+                mail bcc: '', body: 'Job is running successfully', cc: '', from: '', replyTo: '', subject: 'Jenkins Declarative Pipeline Job Status', to: 'amazon.machineec2@gmail.com'
+            }
+        }
+    }
+}

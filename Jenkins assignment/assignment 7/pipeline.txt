@@ -1,0 +1,14 @@
+pipeline {
+    agent { label 'master' }
+    options {
+            buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '2')
+    }
+    stages {
+        stage('Displaying Job name and Build number') {
+            steps {
+                echo "Job Name is: ${env.JOB_NAME}"
+                echo "Build Number is: ${env.BUILD_NUMBER}"
+            }
+        }
+    }
+}

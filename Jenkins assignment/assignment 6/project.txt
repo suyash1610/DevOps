@@ -1,0 +1,13 @@
+Create a Declarative CI  pipeline for java based project that contains various stages like
+Code checkout | Done
+Run below stagess in parallel | Done
+- Code stability. | Done
+- Code quality analysis. | Done
+- Code coverage analysis. | Done
+Generate a report for code quality & analysis. | Done
+Publish artifacts. 
+Send Slack and Email notifications.
+The user should have the option to skip various scans in the build execution. And before publish there should be an approval stage to be set in place 
+to approve or deny the publish and if approved the step should execute and the user should be notified post successful/failed. | Done
+
+

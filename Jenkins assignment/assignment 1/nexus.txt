@@ -1,0 +1,17 @@
+nexus platform 
+nexus artifact
+
+manage jenkins > configure system -> nexus
+
+Display : Anything 
+server ID : Anything
+URL : URL of nexus
+credentials : nexus username and password
+
+Snippet 
+
+version : NEXUS3
+protocol : HTTP
+Nexus URL : IP
+Credential : 
+Type : war
