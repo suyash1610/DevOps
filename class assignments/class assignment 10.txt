@@ -1,0 +1,7 @@
+* Create 2 ec2 server(t2.micro) 
+* Install nginx in each server and change content of index.html like "Hi I am server 1/2" on both server.
+* Create internet-facing ALB with http listener and retrict access of ALB to your public IP only. Create Target group as well
+* health check should be /index.html
+* Attach both server in target group
+* Hit Load balancer at browser and verify if index.html content changes or not.
+* Set sticky session of 2 mins and verify this time index.html content should not change for 2 mins atleast.

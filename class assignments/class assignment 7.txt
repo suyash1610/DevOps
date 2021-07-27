@@ -1,0 +1,10 @@
+What you will do:
+In this lab we will explore how authentication and authorization works in Jenkins:
+Create user's for all the members of your group.
+Create 2 groups dev and devops and assign people to each group.
+Ensure that devops group people will have complete access on Jenkins server.
+Ensure that dev group people are only allowed to run the jobs.
+Create a job to which one member of dev group should have edit access. 
+
+Step 1: created users
+Step 2: Installed role based plugin

@@ -1,0 +1,6 @@
+* create AMI from one of ec2 server that you created in earlier task (the nginx one)
+* Create ASG and launch template with above AMI. (min:1 , desired: 1 max: 4)
+* Attach ASG with TG you created in earlier task (the nginx one)
+* Create scaling policy CPU > 50%
+* Now generate high CPU in exixting ec2 server so that it crosses 50% CPU and ASG should add more ec2 instances.
+* Remove high CPU load .. ASG should set instance count to 1 after sometime

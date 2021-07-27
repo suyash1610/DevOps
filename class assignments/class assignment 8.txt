@@ -1,0 +1,8 @@
+In this lab we will learn the networking concept
+- Create one VPC
+- Create 2 subnet
+- Create 1 IGW
+- Attch IGW with Public Subnet
+- Block your IP for 22 Port and share ScreenShot
+- Now fix that block and again try doing telnet and share the SS
+- Create NAT gateway also and attach it with private subnet.

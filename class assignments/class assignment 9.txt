@@ -1,0 +1,7 @@
+In this lab we will learn about EC2:
+  - Create on EC2 instance using minimum configuration.
+  - Make sure that you are using your existing VPC and Public Subnet.
+  - Attach extra Volume of 10 GB along with default one.
+  - Make sure instance is only accessible from your IP.
+  - Also try to install Nginx on the fly.
+  - And make the public AMI of the instance.

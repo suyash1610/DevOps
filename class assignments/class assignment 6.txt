@@ -1,0 +1,6 @@
+What you will do:
+In this lab we will explore how we can add & configure agent:
+Add a node to your controller Jenkins master via SSH agent.
+Ensure that at any point of time only 1 job can be executed on this slave.
+Create a Jenkins Job that should read print the name of Agent on which that job is executing.
+Ensure that if Jenkins job would be run between 9am-6pm then only it should be executed on the newly added node, else on the master node.

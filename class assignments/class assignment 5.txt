@@ -1,0 +1,62 @@
+In this lab we will create a Jenkins Declarative Pipeline for CI  :
+Create a Jenkins Pipeline that will kick start the CI process if a commit is made.
+Add a Stage in pipeline to perform to Code stability.
+Add a Stage in pipeline to perform code quality analysis.
+Add a Stage in pipeline to perform code coverage analysis.
+Add a Stage in pipeline to generate report for code quality & analysis.
+Add a Stage in pipeline to send Slack and Email notification.
+
+pipeline {
+    agent any
+    stages {
+        stage('clone') {
+            steps {
+                git branch: 'main', url: 'https://github.com/OT-TRAINING/OT-MicroServices-Training.git'
+            }
+        }
+        stage('Maven validate') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/OT-MicroServices-Training-Pipeline/salary
+                mvn validate'''
+            }
+        }
+        stage('Maven Compile') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/OT-MicroServices-Training-Pipeline/salary
+                mvn compile'''
+            }
+        }
+        stage('Maven Test') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/OT-MicroServices-Training-Pipeline/salary
+                mvn test'''
+            }
+        }
+        stage('Maven Package') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/OT-MicroServices-Training-Pipeline/salary
+                mvn package'''
+            }
+        }
+        stage('Maven Verify') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/OT-MicroServices-Training-Pipeline/salary
+                mvn verify'''
+            }
+        }
+        stage('Maven Install') {
+            steps {
+                sh '''cd /var/lib/jenkins/workspace/OT-MicroServices-Training-Pipeline/salary
+                mvn install'''
+            }
+        }
+    }
+    post {
+    success {
+        sh '''cd /var/lib/jenkins/workspace/OT-MicroServices-Training-Pipeline/salary
+        mvn pmd:pmd'''
+        }
+    }
+}
+
+

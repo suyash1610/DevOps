@@ -1,0 +1,5 @@
+Create a Jenkins job that will kick start the CI process if a commit is made.
+Add a downstream Jenkins job that will perform code stability analysis.
+Add a downstream Jenkins job that will perform code quality analysis.
+If any of the step fails a Slack and Email notification should be sent.
+Also enable quality check reporting in Jenkins & Sonarqube
