@@ -1,0 +1,37 @@
+## Must Do
+- Installation of webservers
+- Please perform below mentioned acivities once the nginx/apache is installed
+## Ip Based Virtual Hosting
+    - Create a static website with basic html which should open using system IP | Done
+    - Create a static website with IP Based Virtual Hosting, should only open when hit using specific ip. For example it should open with 127.0.0.1 only | Done
+    - Create multiple static websites within the server having different web pages serving different content when hit using respective IP. For example, 
+      it should serve "Hi! Welcome to Ninja Program. You've reached localhost" when you hit on 127.0.0.1 where as it should serve "Hi! Welcome to Ninja Program. You've 
+      reached Pvt. IP" when you hit your server using private IP
+## Name Based Virtual Hosting
+    - Create a static website which should serve one page when hit using http://<your-name>.opstreeninja.com and a different page if hit using IP.
+    - Should have nginx config which can serve "Hi! This is <your-name>, and I am a ninja" when you hit using http://<your-name>.opstreeninja.com and should 
+      serve "I am here to become a Devops Engineer" when hit using http://<your-name>.otninja.com.
+## Nginx Path Based Routing
+    - Create a website, it should serve "Welcome to my website" when hit using http://<your-name>.opstreeninja.com and should serve 
+      "This is <your-name>'s home page" when hit using http://<your-name>.opstreeninja.com/home
+## Redirection http to http and http to https
+    - Configure your nginx config in a way that if you hit http://<your-name>.opstreeninja.com, it should redirect you to http://<your-name>.redirect.opstreeninja.com
+    - Configure your nginx config in a way that if you hit http://<your-name>.opstreeninja.com, it should redirect you to http://<your-name>.opstreeninja.com/home and 
+      should serve "Welcome to this website"
+    - Configure your nginx in a way that you hit http://<your-name>.opstreeninja.com, it should return https://<your-name>.opstreeninja.com
+## Return Custom message
+    - Configure your nginx config so that if a user hit http://<your-name>.opstreeninja.com/bot, it should return 504 to the end user
+    - Configure your nginx config so that if a user hit http://<your-name>.opstreeninja.com/opstree, it should return "Not Authorized" 
+      ( This has to be done from nginx config itself) 
+## METHOD Filtering
+    - Configure your nginx config so that only GET method is allowed on your website http://<your-name>.opstreeninja.com, requests with other methods should 
+      get "405" error
+## User Request Control
+    - Configure your nginx config so that it should allow 5 hits only to your website http://<your-name>.opstreeninja.com from a particular IP, 
+      more than 5 hits in a minute should be blocked
+## Nginx Proxy setup
+    - Create a setup where nginx config should be running on 80 port.
+    - Install tomcat
+    - Config running with 80 port should route traffic to downstream applications which is running on 8080 port (tomcat).
+## Good to Do
+- Install nginx from source, without using package manager. You have to build and configure it in your system itself.
