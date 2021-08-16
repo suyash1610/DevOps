@@ -1,0 +1,12 @@
+We need to setup infra for our Salary Micro-Service on AWS instance so we need to follow below steps:
+    - First we need to create Infrastructure Diagram for infra of Salary Micro-Service along with ElasticSearch.
+    - Create the infra on the basis of your infrastructure diagram.
+Make sure your infra considers below points
+    - Make sure your setup is highly available.
+    - Make sure your setup is secure and is not expose to outer world.
+You have to setup infra for below 2 applications
+    - VM for hosting salary app
+    - VM for hosting ES app
+
+Repo : https://github.com/opstree/OT-Microservices-Training
+       https://github.com/opstree/OT-Microservices-Training.git

@@ -1,0 +1,14 @@
+High availability can be achieved by distributing the servers on multiple AZ.
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-elasticsearch-on-ubuntu-18-04
+
+export CONFIG_FILE=/home/ubuntu/OT-Microservices-Training/salary/config.yaml
+sudo nano /etc/elasticsearch/elasticsearch.yml
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
+
+dns hit : http://salary-alb-1217842230.ap-south-1.elb.amazonaws.com/salary/healthz
+
+error faced :
+
+1. build did not happen on my previous ami
+2. elasticsearch was not responding to connection requests when installed without using docker
