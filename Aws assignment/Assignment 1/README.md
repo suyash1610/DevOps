@@ -14,7 +14,7 @@ You have to setup infra for below 2 applications
 
 # Infrastructure Diagram
 
-![App Screenshot](ID5.png)
+![App Screenshot](screenshots/ID5.png)
 
 # Steps Followed
 
