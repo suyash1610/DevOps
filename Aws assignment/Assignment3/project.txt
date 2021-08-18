@@ -1,0 +1,29 @@
+## What you will learn from this lab
+- S3
+- Hosting a static site in s3
+- Cloudfront (CDN)
+- Route 53
+
+## Task Description 
+- Create 2 S3 buckets 
+    -  With console (bucket name = ninja) 
+    -  With CLI (bucket name= BuddyName) 
+- create 2 index.html page 
+    - With content "Hi ninja" 
+    - With "Hi buddy name"
+- Upload index.html with "Hi ninja" using AWS console on ninja bucket.
+- Upload index.html inside folder 'ninja', with "Hi Buddy" using AWS CLI  on BuddyName bucket.
+- Configure CloudFront for both s3 buckets in such a fashion that CloudFront should open "Hi ninja" on default and cloudfront dns/ninja should display "Hi buddy"
+ **S3 should not be publicly open (Only accessible through CloudFront using bucket policy and OAI)**
+- Arrange a domain from any registrar(eg: try to get it free or cheapest ;-) )  
+- Create a public hosted zone with the existing domain
+- Now create a recordset  for mapping your  CloudFront DNS with {your_name}.{your_domain} which is hosting your previously created website 
+    - eg: Pankaj.crazy traveller.ga should open your website. (where "Pankaj" is name and "dcrazytraveller.ga" is your domain)
+
+##  Good To Do
+- Create a private hosted zone (choice of your domain) and attach it to your VPC.
+- Now create a recordset  for mapping your  CloudFront DNS with {your_buddy_name}.{your_domain} which is hosting your previously created website 
+- Do the same activity as done in the public-hosted zone.
+    - Now try accessing it from your local machine.
+    - Create an EC2 instance in your VPC and try accessing the same domain from your machine.
+
