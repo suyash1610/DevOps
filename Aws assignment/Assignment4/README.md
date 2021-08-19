@@ -1,0 +1,19 @@
+## Infrastructure as a Code
+**Note: Continuing from first assignment ......**
+### Task Description 
+
+- Create the following resources using terraform:
+    - Create  ec2-instances based on your  assigned software(cluster or HA(Use Interpolation))
+    - Create one bastion host
+    - Create  Security Groups for  your EC2 instances
+        - port 22 of bastion host should only accessible from your public ip.
+        - port 22 of  the private instances should only be accessible from  bastion host
+- Create jenkins pipeline that will create the Infra
+    - There should be  approval stage before the infra is created 
+    -  Your job should send notification for status of job in slack.
+- Create jenkins pipeline that will destroy the Infra  
+    - There should be  approval stage before the infra is Destroyed 
+    -  Your job should send notification for status of job in slack.
+
+
+**Note: Make maximum use of  variables and output files**

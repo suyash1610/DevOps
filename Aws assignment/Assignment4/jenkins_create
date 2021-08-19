@@ -1,0 +1,60 @@
+pipeline {
+    agent {
+        node {
+            label 'master'
+            customWorkspace '/var/lib/jenkins/workspace/terraform/infra_create/terraform_infra/terraform_infra'
+        }
+    }
+
+    stages {
+        stage('Initiating Terraform') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+        stage('Terraform Format') {
+            steps {
+                sh 'terraform fmt'
+            }
+        }
+        stage('Terraform Validate') {
+            steps {
+                sh 'terraform validate'
+            }
+        }
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan'
+            }
+        }
+        stage('Terraform Apply') {
+            input {
+                message 'Kindly approve to proceed to the "terraform apply" stage '
+                ok 'Approve'
+                parameters {
+                    choice choices: ['yes', 'no'], name: 'CHOICE'
+                }
+            }
+            when { 
+                environment name: 'CHOICE', value: 'yes' 
+            }
+            steps {
+                sh 'terraform apply -auto-approve'
+            }
+        }
+    }
+    post {
+        success {
+            slackSend channel: 'group-connect', message: 'Terraform job ran successfully', tokenCredentialId: 'ac0d36dc-5340-4e86-8acc-d6603b833281'
+        }
+        failure {
+            slackSend channel: 'group-connect', message: '***** ERROR ****** : Terraform job failed', tokenCredentialId: 'ac0d36dc-5340-4e86-8acc-d6603b833281'
+        }
+        aborted {
+            slackSend channel: 'group-connect', message: 'Oops !!!!!!! made a mistake :: Aborting.......', tokenCredentialId: 'ac0d36dc-5340-4e86-8acc-d6603b833281'
+        }
+        unstable {
+            slackSend channel: 'group-connect', message: 'Info :: Terraform job is unstable :: Check code for error', tokenCredentialId: 'ac0d36dc-5340-4e86-8acc-d6603b833281'
+        }
+    }
+}
