@@ -1,0 +1,11 @@
+Now create modules for your previously created resources and then call the created modules in main file :
+
+VPC module | Done
+Subnet module | Done
+IGW module | Done
+NAT module | Done
+Route Table module
+EC2 module | Done
+Security Groups module
+
+Note: Nothing will be hardcoded in yours module, Make maximum use of variables and output files
