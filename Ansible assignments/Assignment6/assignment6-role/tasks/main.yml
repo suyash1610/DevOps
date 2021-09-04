@@ -1,0 +1,27 @@
+---
+# tasks file for assignment6-role
+- name: installing nginx on Ubuntu OS
+  apt: 
+    name: nginx
+    state: present
+  when: ansible_distribution == "Ubuntu"
+
+- name: Error message if unsupported OS
+  debug: 
+    msg: "OS is not supported"
+  when: ansible_distribution != "Ubuntu"
+
+- name: Modifying default page
+  template: 
+    src: "index.html.j2"
+    dest: "/var/www/html/index.html"
+
+- name: Nginx listening port
+  replace: 
+    path: /etc/nginx/sites-enabled/default
+    regexp: "{{ current_port }}"
+    replace: "{{ port }}"
+    before: "default_server"
+  when: port != 80
+  notify: restarting nginx
+

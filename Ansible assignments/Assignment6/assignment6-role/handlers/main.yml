@@ -1,0 +1,6 @@
+---
+# handlers file for assignment6-role
+- name: restarting nginx
+  service:
+    name: nginx
+    state: restarted

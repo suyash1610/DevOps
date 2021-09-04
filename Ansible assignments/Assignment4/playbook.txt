@@ -1,0 +1,86 @@
+---
+- name: task1
+  hosts: webserver1
+  become: yes
+  gather_facts: true
+  tasks: 
+    - name: group creation
+      group:
+        name: ninja
+        state: present
+    - name: user creation
+      user:
+        name: suyash
+        state: present
+        home: /tmp/suyash
+        shell: /bin/bash
+        groups: ninja
+
+- name: task2
+  hosts: webserver1
+  become: yes
+  gather_facts: true
+  tasks:
+    - debug:
+        msg: "Hostname is : {{ ansible_hostname }}"
+    - debug: 
+        msg: 
+          - "Private IPV4 address is: {{ ansible_default_ipv4.address }}"
+          - "Operating System is: {{ ansible_distribution }}"
+    - debug: 
+        msg: 
+          - "Total available memory is: {{ ansible_memory_mb.real.total }}"
+          - "Total used memory is: {{ ansible_memory_mb.real.used }}"
+          - "Total free memory is: {{ ansible_memory_mb.real.free }}"
+    - command: df -h
+      register: disk_info
+    - debug: 
+        var: disk_info.stdout_lines
+    - command: ifconfig -a
+      register: net_devices
+    - debug: 
+        var: net_devices.stdout_lines
+
+- name: task3
+  hosts: webserver1
+  become: yes
+  gather_facts: true
+  tasks: 
+    - name: Nginx installation
+      apt: 
+        name: nginx
+        state: latest
+    - name: Starting Nginx Service
+      service:
+        name: nginx
+        state: started
+    - name: Stoping Nginx Service 
+      service:
+        name: nginx
+        state: stopped
+    - name: Restarting Nginx Service
+      service: 
+        name: nginx
+        state: restarted
+
+- name: task4
+  hosts: webserver1
+  become: yes
+  gather_facts: true
+  tasks: 
+    - name: Copying default webpage
+      copy: 
+        src: index.html
+        dest: /var/www/html/index.html
+    - name: Modifying Name in webpage
+      lineinfile:
+        path: /var/www/html/index.html
+        insertafter: "^Name:"
+        line: Suyash
+        state: present
+    - name: Modifying Hostname in webpage
+      lineinfile:
+        path: /var/www/html/index.html
+        insertafter: "^Hostname:"
+        line: "{{ ansible_hostname }}"
+        state: present

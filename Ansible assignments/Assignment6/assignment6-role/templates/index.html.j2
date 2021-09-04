@@ -1,0 +1,10 @@
+<html>
+<h1> Hello from {{ welcomer }} </h1>
+<h2> Hostname : {{ ansible_hostname }} </h2>
+<h2> Ip address : {{ ansible_default_ipv4.address }} </h2>
+<h2> Operating System : {{ ansible_distribution }} </h2>
+<h2> RAM information : </h2>
+<h3> Total: {{ ansible_memory_mb.real.total }} </h3>
+<h3> Used: {{ ansible_memory_mb.real.used }} </h3>
+<h3> Free: {{ ansible_memory_mb.real.free }} </h3>
+</html>

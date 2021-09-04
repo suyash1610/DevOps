@@ -1,0 +1,17 @@
+# Assignment6 master yml file 
+---
+- name: Assignment6 master yml file
+  hosts: dbserver1
+  become: yes
+  gather_facts: yes
+  roles: 
+    - assignment6-role
+  vars_prompt: 
+    - name: "welcomer"
+      prompt: "Enter welcomer name"
+      default: "Opstree"
+    - name: "port"
+      prompt: "Listening port"
+      default: "80"
+    - name: "current_port"
+      prompt: "Enter current listening port"

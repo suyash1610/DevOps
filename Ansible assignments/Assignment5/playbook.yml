@@ -1,0 +1,80 @@
+---
+- name: Assignmennt 5
+  hosts: webserver1
+  become: yes
+  gather_facts: true
+  tasks:
+    - apt:
+        name: nginx
+        state: present
+    - lineinfile: 
+        path: /var/www/html/index.html
+        insertafter: "^Name:"
+        line: Suyash Chandra Sinha
+        state: present
+      notify: restarting nginx
+    - lineinfile: 
+        path: /var/www/html/index.html
+        insertafter: "^Hostname"
+        line: "{{ ansible_hostname }}"
+        state: present
+      notify: restarting nginx
+
+  handlers:
+    - name: restarting nginx
+      service:
+        name: nginx 
+        state: restarted
+
+- name: Installing git, vim and ntp
+  hosts: webserver1
+  become: yes
+  gather_facts: true
+  tasks:
+    - apt: 
+        name: "{{ item }}" 
+        state: present
+      with_items:
+        - git
+        - vim
+        - ntp
+
+- name: Creating user by taking user inputs
+  hosts: webserver1
+  become: yes
+  gather_facts: true
+  vars_prompt: 
+    - name: username
+      prompt: Type username to be created
+      private: no
+    - name: password
+      prompt: Type user password
+      private: yes
+    - name: home_dir
+      prompt: Type user home directory
+      private: no
+    - name: shell
+      prompt: Type use shell
+      private: no
+  tasks: 
+    - group: 
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - opstree
+        - devops
+    - user:
+        name: "{{ username }}"
+        state: present
+        password: "{{ password }}"
+        home: "{{ home_dir }}"
+        shell: "{{ shell }}"
+        groups: opstree
+      when: username == "ninja" and username == "sensei"
+    - user:
+        name: "{{ username }}"
+        state: present
+        password: "{{ password }}"
+        home: "{{ home_dir }}"
+        shell: "{{ shell }}"
+        groups: devops

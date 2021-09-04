@@ -1,0 +1,18 @@
+Run adhoc commands based on the following conditions:
+
+- Due to resources constraint, Run specific commands on all remote hosts one at a time.
+- Setup solution which collects the minimal amount of system-related information from a remote host 
+- Change the location of the default inventory file without using the Adhoc flag
+- Create an inventory file with the .py extension and update the file path in the config file. But while running the commands that inventory file should not work.
+- While using Ansible ad-hoc command without any module, it should print ping-pong output
+- Due to security reasons, the organization modified the SSH default port to some random port, make sure while using ansible, we don't have to provide or change 
+  ansible port for every host and it should work for all.
+- ### While using Ansible, it should pick random user [ example - ninja ] as default instead of root.
+- While login into remote servers, it should use the default private key if not provided.
+- As display output doesn't require color output, how can we disable colors from the output while using ansible commands
+- How can we get information of remote hosts which have failed to execute properly and rerun the same commands only for failed hosts
+- Run commands on the basis of different strategy and how it is different from each other. Use at least 4 hosts
+
+
+
+

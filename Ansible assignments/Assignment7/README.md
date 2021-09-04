@@ -1,0 +1,33 @@
+## Ansible Assignment 7
+
+Opstree
+- laptop Management
+    - Phase 1 | User Creation
+        - owner user (non sudo)
+            - public/private key will be created
+        - manager (sudo access)
+        - .ssh/config 
+            - Generate file for your team members so that you can ssh
+                - ssh sandeep.opstree.com
+    - Phase 2 | Repositories
+        - Company
+            - https://github.com/OT-OSM/jenkins.git
+            - https://github.com/OT-OSM/MySQL.git
+        - Team
+            - git@gitlab.com:ot-devops-ninja/batchxi/linux.git
+            - git@gitlab.com:ot-devops-ninja/batchxi/git.git
+        - Personal
+            - Decide
+    - Phase 3 | Software's
+        - Company
+            - Git
+            - vim
+            - telnet
+        - Team
+            - Team A
+                - Nginx
+            - Team B
+                - Apache
+        - Personal
+            - Sandeep
+                - MySQL
