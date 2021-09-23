@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: attendance-mysql-pod
+  labels: 
+    app: attendance-mysql
+spec: 
+  containers:
+    - name: empms-attendance
+      image: suyash1610/empms:suyash-attendance
+      ports: 
+        - containerPort: 8081
+    - name: empms-db
+      image: suyash1610/empms:suyash-db
+      ports: 
+        - containerPort: 3306

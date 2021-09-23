@@ -1,0 +1,17 @@
+Create a utility to host a static website via Docker with below features:
+    - The website should be accessed via your team domain name i.e
+        - <name>.<team-name>.com
+        - opstree.ntd.com
+    - The website should be up and running in below intervals
+        - 10-12
+        - 4-6
+    - Modify the utility so that in which first half it would be printing your name and in second half your buddy name. i.e below will be the output of curl command
+        - 10-12 | Hello from Opstree
+        - 4-6 | Hello from TEAM-NAME
+First do it manually
+Then create a utility.
+
+
+
+
+

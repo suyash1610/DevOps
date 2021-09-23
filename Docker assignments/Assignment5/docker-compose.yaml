@@ -1,0 +1,93 @@
+---
+version: '3.2'
+
+services:
+  empms-es:
+    image: suyash1610/empms:suyash-es
+    volumes:
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - ot-microservices
+
+  empms-db:
+    image: suyash1610/empms:suyash-db
+    ports:
+      - "3306:3306"
+    networks:
+      - ot-microservices
+
+  empms-attendance:
+    image: suyash1610/empms:suyash-attendance
+    ports:
+      - "8081:8081"
+    networks:
+      - ot-microservices
+    depends_on:
+      - empms-db
+
+  empms-salary:
+    image: suyash1610/empms:suyash-salary
+    ports:
+      - "8082:8082"
+    networks:
+      - ot-microservices
+    depends_on:
+      - empms-es
+
+  empms-notification:
+    image: suyash1610/empms:suyash-notification
+    networks:
+      - ot-microservices
+    depends_on:
+      - empms-es
+
+  empms-employee:
+    image: suyash1610/empms:suyash-employee
+    ports:
+      - "8083:8083"
+    networks:
+      - ot-microservices
+    depends_on:
+      - empms-es
+
+  empms-gateway:
+    image: suyash1610/empms:suyash-gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - ot-microservices
+    depends_on:
+      - empms-attendance
+      - empms-salary
+      - empms-employee
+      - empms-notification
+
+  empms-frontend:
+    image: suyash1610/empms:suyash-frontend
+    ports:
+      - "5000:5000"
+    networks:
+      - ot-microservices
+    depends_on:
+      - empms-gateway
+
+  empms-webserver:
+    image: suyash1610/empms:suyash-webserver
+    ports:
+      - "80:80"
+    networks:
+      - ot-microservices
+    depends_on:
+      - empms-frontend
+
+networks:
+  ot-microservices:
+    driver: bridge
+
+volumes:
+  elasticsearch:

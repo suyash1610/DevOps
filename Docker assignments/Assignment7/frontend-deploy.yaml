@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empms-frontend
+  labels:
+    app: empms-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: empms-frontend
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: empms-frontend
+    spec:
+      containers:
+      - image: suyash1610/empms:suyash-frontend
+        imagePullPolicy: Always
+        name: empms-frontend
+        ports:
+        - containerPort: 5000
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: empms-frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: empms-frontend
+  ports:
+  - protocol: TCP
+    port: 5000

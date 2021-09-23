@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empms-webserver
+  labels:
+    app: empms-webserver
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: empms-webserver
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: empms-webserver
+    spec:
+      containers:
+      - image: suyash1610/empms:suyash-webserver
+        imagePullPolicy: Always
+        name: empms-webserver
+        ports:
+        - containerPort: 80

@@ -1,0 +1,37 @@
+'In this Assignment We need to deploy OT-Microservices Application.
+REPO LINK: https://github.com/opstree/OT-Microservices-Training 
+Step1: - MySQL - Attendance - Validate 
+Step2 - ES - Employee - Validate 
+Step3: - Salary - Validate 
+Step4: Nginx - Proxy - Salary - Employee - Attendance
+Step5: Frontend - Validate'
+
+Answers:
+
+-> accessing database : $ mysql -h {hostname} -u username -p {databasename}
+                          Password: {your password}
+
+docker run -d --name mysqldb -h suyash --network ot-microservices -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=attendancedb mysql:5.6
+docker run -d --name attendance -p 8081:8081 --network ot-microservices -e CONFIG_FILE=/app/config.yml -v /home/docker/OT-Microservices-Training/attendance/config.yaml:/app/config.yaml suyash1610/ot-microservices-training:suyash-attendance
+
+
+
+docker run -d --name empms-es --expose=9200 --network ot-microservices suyash1610/empms:suyash-es
+docker run -d --name empms-db --expose=3306 --network ot-microservices suyash1610/empms:suyash-db 
+docker run -d --name empms-attendance --expose=8081 --network ot-microservices suyash1610/empms:suyash-attendance
+docker run -d --name empms-salary --expose=8082 --network ot-microservices suyash1610/empms:suyash-salary
+docker run -d --name empms-employee --expose=8083 --network ot-microservices suyash1610/empms:suyash-employee 
+docker run -d --name empms-gateway --expose=8080 --network ot-microservices suyash1610/empms:suyash-gateway
+docker run -d --name empms-frontend --expose=5000 --network ot-microservices suyash1610/empms:suyash-frontend 
+docker run -itd --name empms-webserver -p 80:80 --network ot-microservices suyash1610/empms:suyash-webserver bash
+
+docker run -d --name empms-es -p 9200:9200 suyash1610/empms:suyash-es
+docker run -d --name empms-db -p 3306:3306 suyash1610/empms:suyash-db 
+docker run -d --name empms-attendance -p 8081:8081 suyash1610/empms:suyash-attendance
+docker run -d --name empms-salary -p 8082:8082 suyash1610/empms:suyash-salary
+docker run -d --name empms-employee -p 8083:8083 suyash1610/empms:suyash-employee 
+docker run -d --name empms-gateway -p 8080:8080 suyash1610/empms:suyash-gateway
+docker run -d --name empms-frontend -p 5000:5000 suyash1610/empms:suyash-frontend 
+docker run -itd --name empms-webserver -p 80:80 suyash1610/empms:suyash-webserver bash
+
+

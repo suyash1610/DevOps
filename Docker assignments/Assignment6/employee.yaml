@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: empms-employee
+  labels: 
+    app: empms-employee 
+spec: 
+  containers:
+    - name: empms-employee
+      image: suyash1610/empms:suyash-employee
+      ports: 
+        - containerPort: 8083

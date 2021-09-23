@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: empms-frontend
+  labels: 
+    app: empms-frontend 
+spec: 
+  containers:
+    - name: empms-frontend
+      image: suyash1610/empms:suyash-frontend
+      ports: 
+        - containerPort: 5000

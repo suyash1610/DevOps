@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: empms-gateway
+  labels: 
+    app: empms-gateway 
+spec: 
+  containers:
+    - name: empms-gateway
+      image: suyash1610/empms:suyash-gateway
+      ports: 
+        - containerPort: 8080

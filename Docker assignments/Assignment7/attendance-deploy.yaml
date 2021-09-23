@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empms-attendance
+  labels:
+    app: empms-attendance
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: empms-attendance
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: empms-attendance
+    spec:
+      containers:
+      - image: suyash1610/empms:suyash-attendance
+        imagePullPolicy: Always
+        name: empms-attendance
+        ports:
+        - containerPort: 8081
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: empms-attendance
+spec:
+  type: ClusterIP
+  selector:
+    app: empms-attendance
+  ports:
+  - protocol: TCP
+    port: 8081

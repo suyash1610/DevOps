@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empms-employee
+  labels:
+    app: empms-employee
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: empms-employee
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: empms-employee
+    spec:
+      containers:
+      - image: suyash1610/empms:suyash-employee
+        imagePullPolicy: Always
+        name: empms-employee
+        ports:
+        - containerPort: 8083
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: empms-employee
+spec:
+  type: ClusterIP
+  selector:
+    app: empms-employee
+  ports:
+  - protocol: TCP
+    port: 8083

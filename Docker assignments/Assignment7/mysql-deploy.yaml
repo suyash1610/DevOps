@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empms-db
+  labels:
+    app: empms-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: empms-db
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: empms-db
+    spec:
+      containers:
+      - image: suyash1610/empms:suyash-db
+        imagePullPolicy: Always
+        name: empms-db
+        ports:
+        - containerPort: 3306 
+        
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: empms-db
+spec:
+  type: ClusterIP
+  selector:
+    app: empms-db
+  ports:
+  - protocol: TCP
+    port: 3306

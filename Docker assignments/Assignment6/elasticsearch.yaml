@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: empms-es
+  labels: 
+    app: empms-es 
+spec: 
+  containers:
+    - name: empms-es
+      image: suyash1610/empms:suyash-es
+      ports: 
+        - containerPort: 9200

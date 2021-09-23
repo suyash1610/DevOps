@@ -1,0 +1,12 @@
+In this assignment we will be learning about Port Mapping, Linking, Volume Mounting: - You have make sure your S3Hibernate App is up and running on Docker Container. 
+- Make sure one container for MySql is up. 
+- Make sure you are able to ping MySql Container from S3H container. 
+- Make sure your database connectivity is established.
+https://github.com/opstree/spring3hibernate
+Create One directory Structure :
+- Ninjas
+     - Your Team members name
+Now make sure that if this container is getting run by user then respective user should be able to Write on his/her respective Directory only and for others user 
+should only be able to read it. 
+
+

@@ -1,0 +1,12 @@
+In this Assignment we will we creating pods for our OT-MICROSERVICE
+Step1:
+Attendance Setup
+Option 1 Run MySQL and attendance in different pods
+Option 2 Attendance & MySQL in one pod Validation
+Step2:
+Run ES, Run Salary and Ensure connectivity with ES
+Run Employee and Ensure connectivity with ES 
+Step3:
+Run Frontend 
+Run Webserver
+

@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empms-salary
+  labels:
+    app: empms-salary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: empms-salary
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: empms-salary
+    spec:
+      containers:
+      - image: suyash1610/empms:suyash-salary
+        imagePullPolicy: Always
+        name: empms-salary
+        ports:
+        - containerPort: 8082

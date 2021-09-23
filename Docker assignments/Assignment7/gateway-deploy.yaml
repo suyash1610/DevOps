@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empms-gateway
+  labels:
+    app: empms-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: empms-gateway
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: empms-gateway
+    spec:
+      containers:
+      - image: suyash1610/empms:suyash-gateway
+        imagePullPolicy: Always
+        name: empms-gateway
+        ports:
+        - containerPort: 8080
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: empms-gateway
+spec:
+  type: ClusterIP
+  selector:
+    app: empms-gateway
+  ports:
+  - protocol: TCP
+    port: 8080

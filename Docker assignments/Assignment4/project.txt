@@ -1,0 +1,7 @@
+In this assignment we will be covering Dockerfile:
+First: Create a Docker file that will print "Hello Ninja" for you. But if you will pass your name then it should print "Hello {YOUR-FULL-NAME}"
+Second: Build Dockerfile for our Spring3Hibernate Application. Note that How much time it is taking in building and How much memory Docker Image is consuming. 
+Now start working on minimising the docker image Build Time and as well as size. Run the docker image and show the difference. 
+https://github.com/opstree/spring3hibernate
+Third: Make a Single Dockerfile to setup Spring3Hibernate App and MySQL and make sure both are able to connect with each other and application is able to store data 
+as well. (edited) 
