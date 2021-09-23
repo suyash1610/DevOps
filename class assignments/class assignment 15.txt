@@ -1,0 +1,9 @@
+Pull another wordpress image from Docker Hub.
+Run another container of WordPress and instead of -p use -P.
+List random generated map port on wordpress container and try to access it.
+push the Wordpress image to your docker registry after that again pull it and run the docker container using the specified resources cpu 1.5 and memory as 300m
+
+docker pull wordpress
+docker run -itd -P wordpress
+curl localhost:port
+docker ps

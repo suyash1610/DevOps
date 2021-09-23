@@ -1,0 +1,5 @@
+Write ansible playbook:
+	1. Install nginx on the basis of underling OS.
+	2. Host website for each memeber of your group using (loop, template, and virtualhosting)
+	3. Create index.html for each member of your team.
+	When we hit the website "<member.group_name.com>" then the index page should display msg "Hello this is <member name> from <group_name>"

@@ -1,0 +1,7 @@
+Docker File :- 
+——————————
+**Create account on DockerHub.**
+Create a file name ninja.txt. enter “hello this is “ninja name ” from “group name”. 
+Now create a docker file whose base image is ubuntu, then download and install git and nginx.(make sure nginx should be up and running when the container runs for 
+the first time and when u hit nginx page, content from ninja.txt file should come)
+Now create docker image from this above docker file and Try to push this image of ubuntu in your own Docker Hub Account.

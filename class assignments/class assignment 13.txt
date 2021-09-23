@@ -1,0 +1,24 @@
+1. Install nginx on the basis of underling OS.
+2. nginx.conf copy
+3. Create index.html for each member of your team.
+	When we hit the website then the index page should display msg
+        "{{ variable }}"
+        "{{ hostname }}"
+        "{{ facts }}"
+
+4. create multiple html files for different users
+        - user1
+        - user2
+        - user3
+
+    file - /var/www/html/user1/index.html
+    "static content"
+
+5. Create three users using variable concept [ username,shell, homedir ] 
+
+6. update /var/www/html/<USER>/index.html content with dynamic value
+    
+    file - /var/www/html/user1/index.html
+    "user: user1"
+
+7. vhost links [ create virtual host for atleast 3 users ]

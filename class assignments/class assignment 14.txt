@@ -1,0 +1,24 @@
+Running your first container :
+1. Pull Docker Nginx Image. | Done 
+2. List out the images in your system. | Done 
+3. Run all the docker commands without sudo | Done
+4. Run out a container using Nginx Image and name your conatiner as per you team name in interactive mode. | Done
+5. Run another container of Nginx and name your conatiner as per your name using detached mode. | Done
+6. Stop the Container, and list out all the containers in your system. | Done
+
+docker pull [image name]
+docker images
+sudo usermod -aG docker username
+docker run [image name]
+docker run it [image name]
+docker run --name whitewalker nginx
+docker run -it --name whitewalker_newer nginx
+docker run -d --name whitewalker_new nginx
+docker run --entrypoint "/bin/sh" -it nginx
+docker stop container id
+docker ps
+docker ps -a
+docker exec it ID bash
+
+
+

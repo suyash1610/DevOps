@@ -1,0 +1,24 @@
+Script to monitor memory, disk and cpu utilization in linux continiously
+
+#!/bin/bash
+
+
+while true
+do
+
+AVL=$(free | sed -n '2p' | awk '{print $3}')
+MEM_AVL=$(( AVL/1024 ))
+
+if [ ${MEM_AVL} -gt 1400 ]
+then
+echo "CRITICAL: Memory threshold is breached"
+else
+echo "INFO: Memory under threshold"
+fi
+
+sleep 5
+done
+
+
+top | sed -n '3p' | awk -F',' '{print $1}' | awk -F':' '{print $2}'
+df -h | sed -n '4p' | awk '{print $3}'
