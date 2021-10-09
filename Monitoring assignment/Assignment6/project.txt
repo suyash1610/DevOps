@@ -1,0 +1,20 @@
+ElasticSearch
+In continuation with yesterday's assignments
+
+Setup ElasticSearch on the another machine.
+Now forward the filtered Apache logs to elasticsearch database
+Now explore elasticsearch API's and using them to perform the following task
+
+perform CURD Operations using document API.
+Using Indices API
+
+Create New Index
+Delete that Index
+check if specific index exist or not.
+
+
+Monitor your ES health using cluster API.
+
+
+
+Also explore other API's and Configs in ES

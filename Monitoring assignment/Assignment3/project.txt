@@ -1,0 +1,11 @@
+service discovery-3
+Continuing from Day 2..........
+
+Install alert manager
+create custom rule file for generating alerts based on the following:
+CPU utilization higher then 60%
+memory is almost full
+instance is down or up
+configure alertmanger config file for sending alert notification in :
+slack(with proper alert description)
+email(with proper alert description)

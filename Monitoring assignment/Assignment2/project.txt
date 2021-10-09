@@ -1,0 +1,18 @@
+Continuing from Day 1..........
+
+Install grafana
+Add prometheus as data source in grafana.
+Add hostnames to your instances where your software component is installed.
+Make different dashboards for
+
+Your Component
+
+should contain general metrices widget for your software component.
+your widgets should change according to your hostname.
+you should be able to select multiple hostnames from dropdown.
+
+
+your node
+
+your widgets should change according to your hostname.
+should contain general metrices widget like CPU,memory,disk space etc...

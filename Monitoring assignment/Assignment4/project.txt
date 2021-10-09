@@ -1,0 +1,6 @@
+service discovery
+
+Make Connectivity of prometheus with nodes through service discovery
+
+use regex pattern of tags for making connectivity with specific nodes
+use instance id for making the connectivity with nodes

@@ -1,0 +1,47 @@
+Assignment Day 1
+
+Must do
+
+Install Prometheus on a Linux server using any of the available ways. (Preferably from source)
+Setup cluster or HA for your Software component using ansible role which was created earlier in your ansible assignments. Now use custom exporter for your database/middleware/software-component which is assigned to you (like mongo-exporter/mysql-exporter) or if not so use node exporter)
+Try Exploring custom metrics using prometheus and try custom promql queries for options like:
+
+available disk space of the node
+CPU cores
+CPU utilization
+Memory utilization
+uptime
+other metrices related to your software
+
+
+https://danielmrosa.medium.com/monitoring-kafka-b97d2d5a5434
+https://www.confluent.io/blog/monitor-kafka-clusters-with-prometheus-grafana-and-confluent/
+https://www.metricfire.com/blog/kafka-monitoring-using-prometheus/
+https://access.redhat.com/documentation/en-us/red_hat_amq/7.5/html/using_amq_streams_on_rhel/assembly-kafka-exporter-str
+https://dzone.com/articles/kafka-monitoring-via-prometheus-amp-grafana
+https://www.robustperception.io/monitoring-kafka-with-prometheus
+
+https://github.com/prometheus/jmx_exporter
+https://github.com/prometheus/jmx_exporter/blob/master/example_configs/kafka-2_0_0.yml
+
+
+./bin/zookeeper-server-start.sh config/zookeeper.properties &
+KAFKA_OPTS="$KAFKA_OPTS -javaagent:$PWD/jmx_prometheus_javaagent-0.6.jar=7071:$PWD/kafka-0-8-2.yml" \
+  ./bin/kafka-server-start.sh config/server.properties &
+
+
+export KAFKA_OPTS="-javaagent:/kafka/prometheus/prometheus_agent/jmx_prometheus_javaagent-0.16.1.jar=7071:/kafka/prometheus/prometheus_agent/kafka-0-8-2.yml"
+
+KAFKA_OPTS="$KAFKA_OPTS -javaagent:/kafka/prometheus/prometheus_agent/jmx_prometheus_javaagent-0.16.1.jar=7071:/kafka/prometheus/prometheus_agent/kafka-0-8-2.yml" 
+
+export KAFKA_OPTS="-javaagent:/kafka/prometheus/prometheus_agent/jmx_prometheus_javaagent-0.16.1.jar=7071:/kafka/prometheus/prometheus_agent/kafka-2_0_0.yml"
+
+java -javaagent:./jmx_prometheus_javaagent-0.16.1.jar=7071:kafka-2_0_0.yaml -jar jmx_prometheus_javaagent-0.16.1.jar
+
+java -javaagent:./jmx_prometheus_javaagent-0.16.1.jar=7071:/home/ubuntu/kafka/prometheus/prometheus_agent/kafka-2_0_0.yaml -jar jmx_prometheus_javaagent-0.16.1.jar
+
+export KAFKA_OPTS="-javaagent:./jmx_prometheus_javaagent-0.6.jar=7071:kafka-0-8-2.yml"
+
+
+
+

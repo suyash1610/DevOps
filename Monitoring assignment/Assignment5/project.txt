@@ -1,0 +1,23 @@
+Logstash
+
+Install Apache on your machine
+
+create a webpage index.html which will show your name along with batch & host it on Apache.
+
+
+Setup Logstash on the same machine.
+Now Process Apache logs through logstash as an input
+Create a folder on your user's home location and save the proccessed logs in this folder.
+
+Use different plugin for processing data.
+
+grok
+date
+geoip
+useragent
+
+
+
+
+
+Also explore other input, output and filter plugin

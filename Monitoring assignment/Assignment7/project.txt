@@ -1,0 +1,27 @@
+ELK
+
+Create two servers and setup the following
+
+Apache
+Nginx
+
+
+Setup logstash on each server with following patterns
+
+nginx-*
+apache-*
+
+
+Configure both logstash server with single elasticsearch and setup Kibana for visualization
+Create & save different index pattern on Kibana for each server based on timestamp
+Create & save two searches based on
+
+index pattern
+Your city name
+
+
+Create two dashboard for each index pattern based on
+
+total no. of requests
+total no. of error counts & types
+Geo locations
